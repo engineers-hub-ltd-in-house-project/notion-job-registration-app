@@ -10,7 +10,7 @@ function App() {
     e.preventDefault();
     setMessage("処理中...");
     try {
-      const response = await axios.post("http://localhost:5000/process_job", {
+      const response = await axios.post("http://localhost:5555/process_job", {
         content: jobContent,
       });
       setMessage(response.data.message);
