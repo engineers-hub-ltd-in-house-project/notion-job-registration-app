@@ -96,6 +96,28 @@
         border: 1px solid #ccc;
         resize: none;
       }
+      
+      /* クリアボタンのスタイルをグレー系に変更 */
+      .clear-button {
+        margin-top: 20px;
+        margin-right: 10px;
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #757575; /* グレー系の色 */
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      
+      .clear-button:hover {
+        background-color: #616161; /* ホバー時の少し暗いグレー */
+      }
+      
+      .button-container {
+        display: flex;
+        gap: 10px;
+      }
     </style>
   </head>
   <body>
@@ -106,7 +128,10 @@
         <span class="close-button">&times;</span>
         <h1>求人情報入力</h1>
         <textarea id="jobContent" class="job-input-textarea" placeholder="求人情報を入力してください..."></textarea>
-        <button id="submitJob" class="job-submit-button">送信</button>
+        <div class="button-container">
+          <button id="submitJob" class="job-submit-button">送信</button>
+          <button id="clearBtn" class="clear-button">クリア</button>
+        </div>
         <div id="result"></div>
       </div>
     </div>
@@ -119,7 +144,9 @@
         const openBtn = document.getElementById('openModal');
         const closeBtn = document.querySelector('.close-button');
         const submitBtn = document.getElementById('submitJob');
+        const clearBtn = document.getElementById('clearBtn');
         const resultDiv = document.getElementById('result');
+        const jobContentTextarea = document.getElementById('jobContent');
         
         openBtn.onclick = function() {
           modal.style.display = "block";
@@ -127,16 +154,34 @@
         
         closeBtn.onclick = function() {
           modal.style.display = "none";
+          // 入力内容とメッセージをクリア
+          jobContentTextarea.value = "";
+          resultDiv.textContent = "";
         }
         
         window.onclick = function(event) {
           if (event.target == modal) {
             modal.style.display = "none";
+            // 入力内容とメッセージをクリア
+            jobContentTextarea.value = "";
+            resultDiv.textContent = "";
           }
         }
         
+        // クリアボタンのイベントリスナーを追加
+        clearBtn.addEventListener('click', function() {
+          jobContentTextarea.value = "";
+          resultDiv.textContent = "";
+        });
+        
         submitBtn.addEventListener('click', async () => {
-          const content = document.getElementById('jobContent').value;
+          const content = jobContentTextarea.value;
+          
+          if (!content.trim()) {
+            resultDiv.textContent = "求人情報を入力してください";
+            resultDiv.style.color = "red";
+            return;
+          }
           
           resultDiv.textContent = '処理中...';
           
