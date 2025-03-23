@@ -1,5 +1,5 @@
-// ローカル開発環境ではプロキシを使用
-const apiUrl = '/api';
+// 環境変数からAPI URLを取得するか、ローカル開発用のプロキシを使用
+const apiUrl = import.meta.env.VITE_API_URL || '/api';
 console.log('API URL:', apiUrl);
 
 document.addEventListener('DOMContentLoaded', function() {
